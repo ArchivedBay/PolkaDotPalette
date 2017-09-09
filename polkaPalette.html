@@ -1,0 +1,64 @@
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="Polkadot Palette">
+	<meta name="author" content="Skyelah Bay">
+	<title>Polka Palette</title>
+
+	<link rel="stylesheet" href="polkaPalette.css">
+	<script src="paper-full.js"></script>
+
+	<script type="text/paperscript" canvas="mainCanvas">
+	 	// set canvas above to id of canvas in body
+
+	 	//	DECLARE VARIABLES
+		var x; 		// circle's "x" pos.
+		var y; 		//circle's "y" pos.
+		var rad; 	//circle's radius
+		var r; 		//rgb 'r'
+		var g; 		//rgb 'g'
+		var b; 		//rgb 'b'
+		var holderColor = [];	//hold our new color after randomizing
+		var dim = [];			//hold our new position / radius after randomizing
+
+		// DEFINE FUNCTIONS 
+		function randomizeDim(){
+			dim.length = 0; //clear it at the start of the call if needed to prevent infinite pushing
+			x = Math.floor(Math.random() * 1901); // val is based on res, can be changed.
+			y = Math.floor(Math.random() * 1081); // val is based on res, can be changed.
+			rad = Math.floor(Math.random() * 101); // val can be any number you want.
+			dim.push(x,y,rad); //push new values to array
+		}
+		function gradate(){
+			r = Math.floor(Math.random() * 256);
+			g = Math.floor(Math.random() * 256);
+			b = Math.floor(Math.random() * 256);
+			holderColor.push(r,g,b);
+		}
+
+		gradate(); //call once to set initial values for logic below. doesn't require anymore calls.
+
+	 	// MAKE LOGIC FOR PALETTE DOTS 
+	 	for(var i = 0; i <= 50; i++, holderColor[0]+=10, holderColor[1]+=10, holderColor[2]+=10){
+	 			for(var j = 0; j < holderColor.length; j++){
+	 				if(holderColor[j] > 255){
+	 					holderColor[j] = Math.floor(Math.random() * 256); 
+	 				}
+	 			}
+
+	 			randomizeDim(); //randomize our x,y, and radius values
+	 			var circle = new Path.Circle(new Point(dim[0], dim[1]), dim[2]); 
+	 				//create a new circle based on our values
+
+				circle.fillColor = 'rgb('+holderColor[0]+', '+holderColor[1]+', '+holderColor[2]+')'; 
+					//set the fill colour to be the new rgb values AFTER incrementing them in the loop
+	 	}
+
+
+	</script>
+</head>
+<body>
+	<canvas id="mainCanvas" resize></canvas>
+</body>
+</html>
